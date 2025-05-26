@@ -1,0 +1,114 @@
+body{
+    background-color: #232323;
+}
+
+h1, h2, h3, p, a{
+    text-decoration: none;
+    margin: 0;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+
+    &:focus{
+        outline: none;
+    }
+}
+
+.navigation{
+    color: #1ac61a;
+    background-color: #2f2f2f;
+    padding: 30px 15px 33px;
+
+    h1{
+        font-size: 33px;
+        font-weight: 700;;
+    }
+}
+
+.workout-list{
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.workout-item{
+    background-color: #2f2f2f;
+    border-radius: 6px;
+    padding: 15px;
+    position: relative;
+    
+    h1{
+        color: #1ac61a;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    p{
+        color: rgb(191, 191, 191);
+
+        &:first-of-type{
+            margin-bottom: 5px;
+        }
+    }
+    span{
+        color: #1ac61a;
+        position: absolute;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .delete-btn{
+        top: 15px;
+        right: 30px;
+    }
+
+    .edit-btn{
+        top: 15px;
+        right: 75px;
+    }
+}
+
+.workout-form{
+    flex: 3;
+    background-color: #2f2f2f;
+    border-radius: 6px;
+    
+    .title{
+        font-size: 25px;
+        text-align: center;
+        color: #1ac61a;
+        margin-bottom: 20px;
+    }
+
+    label{
+        display: block;
+        color:#1ac61a;
+        margin-bottom: 8px;
+    }
+
+    input{
+        border: none;
+        background-color: #434343;
+        border-radius: 4px;
+        color:#1ac61a;
+        padding: 5px 10px 6px;
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    .add-btn{
+        background-color: #1ac61a;
+        font-weight: 700;
+        padding: 5px 15px 6px;
+        border-radius: 6px;
+    }
+}
