@@ -32,6 +32,12 @@ button{
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    h2{
+        font-size: 20px;
+        color: #1ac61a;
+        text-align: center;
+    }
 }
 
 .workout-item{

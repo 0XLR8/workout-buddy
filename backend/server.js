@@ -4,6 +4,7 @@ const express = require('express');
 const logger = require('./middleware/logger');
 const workoutsRouter = require('./routes/workouts');
 const connectDB = require('./db');
+const cors = require('cors');
 
 const app = express();
 
@@ -11,6 +12,7 @@ connectDB().then(() => {
     // Middlewares
     app.use(express.json());
     app.use(logger);
+    app.use(cors());
 
     // Routes
     app.use('/api/workouts', workoutsRouter);

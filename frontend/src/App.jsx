@@ -1,32 +1,50 @@
 import { WorkoutForm } from "./components/form/WorkoutForm";
 import { Navigation } from "./components/navigation/Navigation"
 import { WorkoutList } from "./components/workout/WorkoutList";
-import { WorkoutContext } from "./context/workoutContext";
-import { useState } from "react";
+import { WorkoutContext } from "./context/WorkoutContext";
+import { useEffect, useState } from "react";
 
 export const App = () => {
 
-    const [workouts, setWorkouts] = useState([
-        {
-            id: '1', 
-            title: 'Workout 1', load: 2,
-            reps: 20,
-        },
-        {
-            id: '2', 
-            title: 'Workout 2', load: 3,
-            reps: 15,
-        },
-        {
-            id: '3', 
-            title: 'Workout 3', load: 4,
-            reps: 10,
-        },
-    ]);   
+    const [workouts, setWorkouts] = useState(null);   
+    const [loading, setLoading] = useState(true);
+    const [fetchError, setFetchError] = useState(null);
+    const [functionalError, setFunctionalError] = useState(null);
     const [selectedWorkout, setSelectedWorkout] = useState(null);
 
-    const handleDeleteWorkoutClick = (id) => {
-        console.log(id);
+    useEffect(() => {
+        const fetchWorkouts = async () => {
+            try{
+                const result = await fetch('http://localhost:4000/api/workouts');
+                if(!result.ok){
+                    console.log(er.error);
+                    throw new Error(er.error);
+                }
+
+                const data = await result.json();
+                setWorkouts(data.map(item => {
+                    return {
+                        ...item,
+                        id: item._id
+                    }
+                }));
+            } catch(er) {
+                console.log(er);
+                setFetchError(er.error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchWorkouts();
+    }, [])
+
+    const handleDeleteWorkoutClick = async (id) => {
+        try{
+            
+        } catch(er) {
+            setFunctionalError('There was an error during delete process. Please try again later.')
+        }
     }
 
     const handleEditWorkoutClick = (id) => {
@@ -36,9 +54,14 @@ export const App = () => {
     return(
         <WorkoutContext.Provider value={{
             workouts,
+            selectedWorkout,
+            fetchError,
+            loading,
             setWorkouts,
+            setFunctionalError,
             handleDeleteWorkoutClick,
-            handleEditWorkoutClick
+            handleEditWorkoutClick,
+            setSelectedWorkout
         }}>
             <Navigation />
             <div className="container p-2 d-flex gap-3 align-items-start">

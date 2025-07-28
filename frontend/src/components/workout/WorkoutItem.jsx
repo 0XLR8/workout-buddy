@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { WorkoutContext } from "../../context/workoutContext"
+import { WorkoutContext } from "../../context/WorkoutContext"
 
 export const WorkoutItem = ({id, title, load, reps, createdAt}) => {
     const {handleDeleteWorkoutClick, handleEditWorkoutClick} = useContext(WorkoutContext);
