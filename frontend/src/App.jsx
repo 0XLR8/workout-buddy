@@ -9,19 +9,21 @@ export const App = () => {
     const [workouts, setWorkouts] = useState(null);   
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
-    const [functionalError, setFunctionalError] = useState(null);
+    const [deleteError, setDeleteError] = useState(null);
     const [selectedWorkout, setSelectedWorkout] = useState(null);
 
     useEffect(() => {
         const fetchWorkouts = async () => {
             try{
                 const result = await fetch('http://localhost:4000/api/workouts');
+                
                 if(!result.ok){
-                    console.log(er.error);
-                    throw new Error(er.error);
+                    const errorData = await result.json();
+                    throw new Error(errorData.error);
                 }
 
                 const data = await result.json();
+                
                 setWorkouts(data.map(item => {
                     return {
                         ...item,
@@ -29,8 +31,7 @@ export const App = () => {
                     }
                 }));
             } catch(er) {
-                console.log(er);
-                setFetchError(er.error);
+                setFetchError(er.message);
             } finally {
                 setLoading(false);
             }
@@ -40,30 +41,41 @@ export const App = () => {
     }, [])
 
     const handleDeleteWorkoutClick = async (id) => {
+        setDeleteError(null);
         try{
-            
+            const result = await fetch(`http://localhost:4000/api/workouts/${id}`, {
+                method: 'DELETE'
+            })
+
+            const data = await result.json();
+
+            if(!result.ok){
+                throw new Error(data.error);
+            }
+
+            setWorkouts(workouts.filter(item => item.id !== id));
         } catch(er) {
-            setFunctionalError('There was an error during delete process. Please try again later.')
+            setDeleteError(er.message);
         }
     }
 
     const handleEditWorkoutClick = (id) => {
-        console.log(id);
+        setSelectedWorkout(workouts.find(item => item.id === id));
     }
 
     return(
         <WorkoutContext.Provider value={{
             workouts,
             selectedWorkout,
-            fetchError,
             loading,
+            fetchError,
             setWorkouts,
-            setFunctionalError,
             handleDeleteWorkoutClick,
             handleEditWorkoutClick,
             setSelectedWorkout
         }}>
             <Navigation />
+            {deleteError && <p className="workout-error">{deleteError}</p>}
             <div className="container p-2 d-flex gap-3 align-items-start">
                 <WorkoutList />
                 <WorkoutForm title='Add a new workout'/>

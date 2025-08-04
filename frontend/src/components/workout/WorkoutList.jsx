@@ -3,7 +3,7 @@ import { WorkoutItem } from "./WorkoutItem";
 import { WorkoutContext } from "../../context/WorkoutContext";
 
 export const WorkoutList = () => {
-    const {workouts, loading, error} = useContext(WorkoutContext);
+    const {workouts, loading, fetchError} = useContext(WorkoutContext);
 
     if(loading){
         return <div className="workout-list">
@@ -11,9 +11,9 @@ export const WorkoutList = () => {
         </div>
     }
 
-    if(!workouts) {
+    if(fetchError) {
         return <div className="workout-list">
-            <h2>{error}</h2>
+            <h2>{fetchError}</h2>
         </div>
     }
 
