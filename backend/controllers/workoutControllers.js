@@ -32,6 +32,10 @@ const getSingleWorkout = async (req, res) => {
 // Post a new workout
 const postNewWorkout = async (req, res) => {
     const {title, reps, load} = req.body;
+
+    if(isNaN(reps) || isNaN(load)){
+        return res.status(400).json({error: 'Reps and load must be numbers'});
+    }
     
     try{
         const workout = await Workout.create({title, reps, load});
